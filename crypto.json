@@ -1,0 +1,24 @@
+{
+  "btc": [
+    {
+      "coin": "bitcoin",
+      "supply": "21000000",
+      "keyPoints": [
+        "First blockchain based crypto",
+        "Satoshi nakamoto, the creator, is anonymous",
+        "longest blockchain history with most proof of work put in"
+      ]
+    }
+  ],
+  "eth": [
+    {
+      "coin": "ethereum",
+      "supply": "infinite",
+      "keyPoints": [
+        "First blockchain with native smartcontracts",
+        "Vitalik Buterin is the creator",
+        "Has the largest developer community"
+      ]
+    }
+  ]
+}
