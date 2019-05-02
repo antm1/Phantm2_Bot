@@ -160,7 +160,6 @@ class Admin(commands.Cog):
 
                 except:
                     await ctx.send(content='The cog ' + str(x) + ' was spelled wrong or does not exist or has an error in it')
-                #print(x)
 
             pass
 
