@@ -62,9 +62,7 @@ class JsonEdit(commands.Cog):
                         section = await self.bot.wait_for('message', timeout=30, check=check)
                         if str(section.content) in rawcontents:
                             sec = str(section.content)
-                            print(sec)
                             await ctx.send(content='You have selected **' + ticker + ' ' + sec + '** to edit.\nThe contents of which are')
-                            print(type(self.crypto[ticker][0][sec]))
                             if str(type(self.crypto[ticker][0][sec])) == "<class 'str'>":
                                 await ctx.send(content=self.crypto[ticker][0][sec])
                         else:
