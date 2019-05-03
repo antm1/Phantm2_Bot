@@ -51,7 +51,7 @@ class JsonEdit(commands.Cog):
                 # Confirms that the ticker was received.
                 await ctx.send(content='You have selected **' + ticker + '** to edit.')
                 self.update_crypto()
-                                if ticker in self.crypto:
+                if ticker in self.crypto:
                     await ctx.send(content='Which part of **' + ticker + '** do you want to to edit?')
                     rawcontents = self.crypto[ticker][0]
                     parts = ''
