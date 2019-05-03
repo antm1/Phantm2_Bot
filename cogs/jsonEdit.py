@@ -72,7 +72,7 @@ class JsonEdit(commands.Cog):
                         await ctx.send(content='You need to specify the part within 30 seconds, please try the command again!')
 
                 else:
-                    await ctx.send(content="It looks like we don't have that ticker yet or it doesn't have anything writter in it yet.")
+                    await ctx.send(content="It looks like we don't have that ticker yet or it doesn't have anything written in it yet.")
 
                 pass
 
