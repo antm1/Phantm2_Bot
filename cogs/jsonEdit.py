@@ -53,28 +53,43 @@ class JsonEdit(commands.Cog):
                 self.update_crypto()
                 if ticker in self.crypto:
                     await ctx.send(content='Which part of **' + ticker + '** do you want to to edit?')
-                    rawcontents=self.crypto[ticker][0]
+                    rawcontents = self.crypto[ticker][0]
                     parts = ''
                     for p in rawcontents:
-                        parts += p +' '
+                        parts += p + ' '
                     await ctx.send(content=parts)
                     try:
                         section = await self.bot.wait_for('message', timeout=30, check=check)
                         if str(section.content) in rawcontents:
                             sec = str(section.content)
-                            print(sec)
-                            await ctx.send(content='You have selected **' + ticker + ' ' + sec + '** to edit.\nThe contents of which are')
-                            print(type(self.crypto[ticker][0][sec]))
+                            await ctx.send(content='You have selected **' + ticker + ' ' + sec + '** to edit.')
                             if str(type(self.crypto[ticker][0][sec])) == "<class 'str'>":
-                                await ctx.send(content=self.crypto[ticker][0][sec])
+                                await ctx.send(content='The contents of which are\n-\n' + self.crypto[ticker][0][sec])
+                            elif str(type(self.crypto[ticker][0][sec])) == "<class 'list'>":
+                                seccontents = self.crypto[ticker][0][sec]
+                                amount = len(seccontents)
+                                await ctx.send(
+                                    content= 'Which has **' + str(amount) + '** sections in it, please choose the one you want to edit.'
+                                )
+                                try:
+                                    subsection = await self.bot.wait_for('message', timeout=30, check=check)
+                                    subsec = int(subsection.content)
+                                    if int(subsec) <= int(amount) and int(subsec) > 0:
+                                        await ctx.send(content='You have selected section **' + str(subsec) + ' ** of **' + ticker + ' ' + sec + '** to edit.\nOf which the contents are\n-')
+                                        await ctx.send(content= self.crypto[ticker][0][sec][int(subsec) - 1])
+                                    else:
+                                        await ctx.send(content= "Your selection didn't fall into the appropriate range, please start the process again!")
+                                except:
+                                    await ctx.send(
+                                        content='You need to specify the an appropriate section on your first try within 30 seconds, please start the process again!')
                         else:
-                            await ctx.send(content= "You didn't select a proper part of " +ticker +" to edit, please start the process again")
+                            await ctx.send(content= "You didn't select a proper part of " +ticker +" to edit, please start the process again!")
                             return
                     except:
-                        await ctx.send(content='You need to specify the part within 30 seconds, please try the command again!')
+                        await ctx.send(content='You need to specify the part within 30 seconds, please start the process again!')
 
                 else:
-                    await ctx.send(content="It looks like we don't have that ticker yet or it doesn't have anything writter in it yet.")
+                    await ctx.send(content="It looks like we don't have that ticker yet or it doesn't have anything written in it yet.")
 
                 pass
 
