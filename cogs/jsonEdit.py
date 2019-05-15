@@ -64,7 +64,20 @@ class JsonEdit(commands.Cog):
                             sec = str(section.content)
                             await ctx.send(content='You have selected **' + ticker + ' ' + sec + '** to edit.')
                             if str(type(self.crypto[ticker][0][sec])) == "<class 'str'>":
-                                await ctx.send(content='The contents of which are\n-\n' + self.crypto[ticker][0][sec])
+                                await ctx.send(content='The contents of which are\n-\n')
+                                await ctx.send(content= self.crypto[ticker][0][sec])
+                                await ctx.send(content='-\nWhat would you like to replace it with?')
+                                try:
+                                    newinput = await self.bot.wait_for('message', timeout=180, check=check)
+                                    if newinput.content.startswith('!'):
+                                        await ctx.send(content='You have entered a command, editing cancelled')
+                                    else:
+                                        self.crypto[ticker][0][sec] = newinput.content
+                                        self.update_file()
+                                        await ctx.send(content='**' + ticker + ' ' + sec + '** has been updated!')
+                                except:
+                                    await ctx.send(
+                                        content='Edited content needs to be posted within 3 minutes in order to prevent bad edits, please start over!')
                             elif str(type(self.crypto[ticker][0][sec])) == "<class 'list'>":
                                 seccontents = self.crypto[ticker][0][sec]
                                 amount = len(seccontents)
@@ -77,6 +90,17 @@ class JsonEdit(commands.Cog):
                                     if int(subsec) <= int(amount) and int(subsec) > 0:
                                         await ctx.send(content='You have selected section **' + str(subsec) + ' ** of **' + ticker + ' ' + sec + '** to edit.\nOf which the contents are\n-')
                                         await ctx.send(content= self.crypto[ticker][0][sec][int(subsec) - 1])
+                                        await ctx.send(content='-\nWhat would you like to replace it with?')
+                                        try:
+                                            newcontent = await self.bot.wait_for('message', timeout=180, check=check)
+                                            if newcontent.content.startswith('!'):
+                                                await ctx.send(content='You have entered a command, editing cancelled')
+                                            else:
+                                                self.crypto[ticker][0][sec][int(subsec) - 1] = newcontent.content
+                                                self.update_file()
+                                                await ctx.send(content='Section **' + str(subsec) + ' ** of **' + ticker + ' ' + sec + '** has been updated!')
+                                        except:
+                                            await ctx.send(content='Edited content needs to be posted within 3 minutes in order to prevent bad edits, please start over!')
                                     else:
                                         await ctx.send(content= "Your selection didn't fall into the appropriate range, please start the process again!")
                                 except:
@@ -95,13 +119,14 @@ class JsonEdit(commands.Cog):
 
 
         except:
-                # User didn't specify the ticker
+            # User didn't specify the ticker
 
             await ctx.send(content='You need to specify the ticker within 30 seconds, please try the command again!')
 
             pass
 
         return
+
 
 def setup(bot):
     bot.add_cog(JsonEdit(bot))
